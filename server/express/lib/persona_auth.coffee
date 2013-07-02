@@ -8,7 +8,7 @@ module.exports = exports = (log, loga, argv) ->
   persona.authenticate_session = (getOwner) ->
     (req, res, next) ->
       req.isAuthenticated = ->
-        log 'isAuthenticated? owner=', getOwner(), req.session, req.session.email and getOwner() is req.session.email
+        log 'isAuthenticated? owner=', getOwner(), 'req.session.email=', req.session.email, getOwner() is req.session.email
         if getOwner() == ''
             return true
         !! req.session.email and getOwner() is req.session.email
@@ -23,7 +23,7 @@ module.exports = exports = (log, loga, argv) ->
 
       postBody = qs.stringify(
         assertion: req.body.assertion
-        audience: 'http://aokwiki-ozten.dotcloud.com'
+        audience: argv.u
       )
 
       opts =
@@ -67,7 +67,6 @@ module.exports = exports = (log, loga, argv) ->
                 email: verified.email
               }
             else
-              console.log verified
               fail()
 
         else
